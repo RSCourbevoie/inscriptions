@@ -7,8 +7,8 @@
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:system-ui,sans-serif;background:#f0f0ec;color:#1a1a1a;min-height:100vh}
-  header{background:#1D9E75;color:white;padding:1rem 2rem;display:flex;align-items:center;gap:1rem}
-  .logo{width:48px;height:48px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px}
+  header{background:#1D9E75;color:white;padding:1rem 2rem;display:flex;align-items:center;gap:1rem;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+  .logo{width:48px;height:48px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
   header h1{font-size:20px;font-weight:600}
   header p{font-size:13px;opacity:0.85;margin-top:2px}
   nav{background:#085041;padding:0 2rem;display:flex}
@@ -38,7 +38,7 @@
   </div>
 </header>
 <nav>
-  <a href="index.html">Accueil</a>
+  <a href="index.html">← Retour</a>
   <a href="moyenne-randonnee.html" class="active">Moyenne Randonnée</a>
 </nav>
 <div class="hero">
@@ -46,11 +46,10 @@
   <p>Choisissez votre nom dans la liste et inscrivez-vous en quelques secondes</p>
 </div>
 <main>
-  <a href="index.html" class="back-link">← Retour aux activités</a>
   <p class="section-title">Formulaire d'inscription</p>
   <div class="iframe-container">
     <iframe
-      src="https://script.google.com/macros/s/AKfycby25nXV0c87FM7GZRaS_5E4L-gsZOeUG6JxXmtzD5keMZItvjhvZw_47KtMv8CJoKEj/exec"
+      src="https://script.google.com/macros/s/AKfycbw_nClKtkBJtWiJ1JbgGLmRQoK-7gdr7LaUfdlB0WWZ_cmkO6O3LzG1qpY3pXZ8-kqB/exec"
       scrolling="auto"
       title="Formulaire d'inscription Moyenne Randonnée">
     </iframe>

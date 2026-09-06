@@ -7,32 +7,62 @@
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:system-ui,sans-serif;background:#f0f0ec;color:#1a1a1a;min-height:100vh}
-  header{background:#1D9E75;color:white;padding:1rem 2rem;display:flex;align-items:center;gap:1rem}
-  .logo{width:48px;height:48px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px}
+  header{background:#1D9E75;color:white;padding:1rem 2rem;display:flex;align-items:center;gap:1rem;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+  .logo{width:48px;height:48px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
   header h1{font-size:20px;font-weight:600}
   header p{font-size:13px;opacity:0.85;margin-top:2px}
-  nav{background:#085041;padding:0 2rem;display:flex}
-  nav a{color:rgba(255,255,255,0.75);text-decoration:none;padding:12px 16px;font-size:14px;border-bottom:2px solid transparent}
-  nav a.active{color:white;border-bottom-color:#5DCAA5;font-weight:500}
-  .hero{background:linear-gradient(135deg,#0F6E56 0%,#1D9E75 100%);color:white;padding:2.5rem 2rem;text-align:center}
-  .hero h2{font-size:24px;font-weight:600;margin-bottom:8px}
-  .hero p{font-size:15px;opacity:0.9}
-  main{max-width:600px;margin:2rem auto;padding:0 1rem}
-  .section-title{font-size:13px;font-weight:600;color:#666;text-transform:uppercase;letter-spacing:.05em;margin-bottom:1rem}
-  .events{display:flex;flex-direction:column;gap:12px;margin-bottom:2rem}
-  .event-card{background:white;border-radius:14px;padding:1.25rem 1.5rem;box-shadow:0 1px 4px rgba(0,0,0,.08);display:flex;justify-content:space-between;align-items:center;text-decoration:none;color:#1a1a1a;transition:box-shadow .2s}
+  .hero{background:linear-gradient(135deg,#0F6E56 0%,#1D9E75 100%);color:white;padding:2rem;text-align:center}
+  .hero h2{font-size:22px;font-weight:600;margin-bottom:6px}
+  .hero p{font-size:14px;opacity:0.9}
+  main{max-width:640px;margin:1.5rem auto;padding:0 1rem}
+  .section-title{font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:1rem}
+  .events{display:flex;flex-direction:column;gap:14px;margin-bottom:1.5rem}
+
+  /* Carte événement */
+  .event-card{background:white;border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.08);overflow:hidden;transition:box-shadow .2s}
   .event-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.12)}
-  .event-icon{font-size:28px;margin-right:1rem;flex-shrink:0}
-  .event-info{flex:1}
-  .event-name{font-size:16px;font-weight:600;margin-bottom:4px}
-  .event-desc{font-size:13px;color:#666}
-  .event-arrow{font-size:20px;color:#1D9E75;flex-shrink:0}
+  .event-header{display:flex;align-items:center;gap:12px;padding:1rem 1.25rem 0.75rem}
+  .event-icon{font-size:26px;flex-shrink:0}
+  .event-title{font-size:16px;font-weight:600;flex:1}
+  .event-meta{font-size:13px;color:#666;display:flex;gap:12px;flex-wrap:wrap;margin-top:2px}
+  .event-body{padding:0 1.25rem 0.75rem}
+
+  /* Jauge */
+  .jauge-wrap{margin:6px 0 8px}
+  .jauge-label{display:flex;justify-content:space-between;font-size:12px;color:#666;margin-bottom:4px}
+  .track{height:8px;background:#eee;border-radius:99px;overflow:hidden}
+  .fill{height:100%;background:#1D9E75;border-radius:99px;transition:width .5s}
+  .fill.plein{background:#E24B4A}
+  .badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+  .badge{font-size:11px;padding:3px 10px;border-radius:99px;font-weight:500}
+  .bg{background:#E1F5EE;color:#085041}
+  .ba{background:#FAEEDA;color:#633806}
+  .badge-illimite{background:#EEF2FF;color:#3730A3}
+
+  /* Boutons */
+  .event-actions{display:flex;gap:8px;padding:0 1.25rem 1rem;flex-wrap:wrap}
+  .btn-inscrire{flex:1;min-width:120px;padding:10px 16px;background:#1D9E75;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;text-align:center;display:inline-block}
+  .btn-inscrire:hover{background:#0F6E56}
+  .btn-gpx{padding:10px 14px;background:#EEF2FF;color:#3730A3;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;text-align:center;display:inline-block}
+  .btn-gpx:hover{background:#E0E7FF}
+  .btn-gpx.hidden{display:none}
+
+  /* Loading */
+  .loading{color:#aaa;font-size:13px;font-style:italic;padding:8px 0}
+  .event-nom-script{font-size:14px;color:#444;font-style:italic;margin-top:2px}
+
   .info-box{background:#E1F5EE;border:1px solid #5DCAA5;border-radius:12px;padding:1rem 1.25rem;font-size:13px;color:#085041;line-height:1.6}
-  .info-box strong{display:block;font-size:14px;margin-bottom:6px}
+  .info-box strong{display:block;font-size:14px;margin-bottom:4px}
   footer{text-align:center;padding:2rem;font-size:12px;color:#999;margin-top:1rem}
+
+  @media(max-width:400px){
+    .event-actions{flex-direction:column}
+    .btn-inscrire{min-width:unset}
+  }
 </style>
 </head>
 <body>
+
 <header>
   <div class="logo">🚶</div>
   <div>
@@ -40,56 +70,146 @@
     <p>Randonnées & Balades</p>
   </div>
 </header>
-<nav>
-  <a href="index.html" class="active">Inscriptions</a>
-</nav>
+
 <div class="hero">
   <h2>Inscriptions aux événements</h2>
-  <p>Choisissez votre activité et inscrivez-vous en quelques secondes</p>
+  <p>Consultez le programme et inscrivez-vous en quelques secondes</p>
 </div>
+
 <main>
-  <p class="section-title">Choisissez votre activité</p>
-  <div class="events">
-    <a href="balades.html" class="event-card">
-      <span class="event-icon">🌿</span>
-      <div class="event-info">
-        <div class="event-name">Balades</div>
-        <div class="event-desc">Inscriptions aux balades</div>
-      </div>
-      <span class="event-arrow">›</span>
-    </a>
-    <a href="grande-randonnee.html" class="event-card">
-      <span class="event-icon">🏔️</span>
-      <div class="event-info">
-        <div class="event-name">Grande Randonnée</div>
-        <div class="event-desc">Inscriptions aux grandes randonnées</div>
-      </div>
-      <span class="event-arrow">›</span>
-    </a>
-    <a href="moyenne-randonnee.html" class="event-card">
-      <span class="event-icon">🌲</span>
-      <div class="event-info">
-        <div class="event-name">Moyenne Randonnée</div>
-        <div class="event-desc">Inscriptions aux moyennes randonnées</div>
-      </div>
-      <span class="event-arrow">›</span>
-    </a>
-    <a href="petite-randonnee.html" class="event-card">
-      <span class="event-icon">🌸</span>
-      <div class="event-info">
-        <div class="event-name">Petite Randonnée</div>
-        <div class="event-desc">Inscriptions aux petites randonnées</div>
-      </div>
-      <span class="event-arrow">›</span>
-    </a>
+  <p class="section-title">Événements de la semaine</p>
+  <div class="events" id="events-container">
+    <!-- Chargement dynamique -->
   </div>
+
   <div class="info-box">
     <strong>ℹ️ Comment s'inscrire ?</strong>
-    Cliquez sur votre activité, tapez les premières lettres de votre nom et sélectionnez-le dans la liste.
+    Cliquez sur "S'inscrire", tapez les premières lettres de votre nom et sélectionnez-le dans la liste.
     Si vous n'êtes pas dans la liste, contactez-nous à
     <a href="mailto:rsc.secre@gmail.com" style="color:#0F6E56">rsc.secre@gmail.com</a>
   </div>
 </main>
+
 <footer>© RSC Courbevoie — Tous droits réservés</footer>
+
+<script>
+var evenements = [
+  {
+    id: 'balades',
+    label: 'Balades',
+    icon: '🌿',
+    page: 'balades.html',
+    statsUrl: 'https://script.google.com/macros/s/AKfycby45Zjl5Bn87S9PJ1hudjR1NotUfK2Ofo0MVGiTp4DshKB10i8LQhYJguwCnNJYuCjhkA/exec?action=stats'
+  },
+  {
+    id: 'grande-randonnee',
+    label: 'Grande Randonnée',
+    icon: '🏔️',
+    page: 'grande-randonnee.html',
+    statsUrl: 'https://script.google.com/macros/s/AKfycbzhRtKgILt45GbHNSwEvq44-2TqQd83PraY94wcaNIAVfmCr5-35hu8IUXlKmyWTDkP/exec?action=stats'
+  },
+  {
+    id: 'moyenne-randonnee',
+    label: 'Moyenne Randonnée',
+    icon: '🌲',
+    page: 'moyenne-randonnee.html',
+    statsUrl: 'https://script.google.com/macros/s/AKfycbw_nClKtkBJtWiJ1JbgGLmRQoK-7gdr7LaUfdlB0WWZ_cmkO6O3LzG1qpY3pXZ8-kqB/exec?action=stats'
+  },
+  {
+    id: 'petite-randonnee',
+    label: 'Petite Randonnée',
+    icon: '🌸',
+    page: 'petite-randonnee.html',
+    statsUrl: 'https://script.google.com/macros/s/AKfycbwZe0C5i0ktpMmzQqvbhN7OVzqkJM2tE3F8Kurjq53Yi4cYebbhvD3YXyvYzYPG3h8O/exec?action=stats'
+  }
+];
+
+function creerCarteChargement(ev) {
+  return '<div class="event-card" id="card-' + ev.id + '">' +
+    '<div class="event-header">' +
+    '<span class="event-icon">' + ev.icon + '</span>' +
+    '<div><div class="event-title">' + ev.label + '</div>' +
+    '<div class="loading">Chargement…</div></div>' +
+    '</div></div>';
+}
+
+function mettreAJourCarte(ev, stats) {
+  var card = document.getElementById('card-' + ev.id);
+  if (!card) return;
+
+  var jaugeHtml = '';
+  var badgesHtml = '';
+
+  if (stats.sansJauge) {
+    badgesHtml = '<span class="badge badge-illimite">∞ Sans limite</span>' +
+      '<span class="badge bg">✓ ' + stats.inscrits + ' confirmé' + (stats.inscrits > 1 ? 's' : '') + '</span>';
+  } else {
+    var pct = Math.round((stats.inscrits / stats.max) * 100);
+    var plein = stats.inscrits >= stats.max;
+    jaugeHtml = '<div class="jauge-wrap">' +
+      '<div class="jauge-label"><span>Places</span><span>' + stats.inscrits + ' / ' + stats.max + '</span></div>' +
+      '<div class="track"><div class="fill' + (plein ? ' plein' : '') + '" style="width:' + pct + '%"></div></div>' +
+      '</div>';
+    badgesHtml = '<span class="badge bg">✓ ' + stats.inscrits + ' confirmé' + (stats.inscrits > 1 ? 's' : '') + '</span>';
+    if (stats.attente > 0) {
+      badgesHtml += '<span class="badge ba">⏳ ' + stats.attente + ' en attente</span>';
+    }
+  }
+
+  var nomEvenement = stats.eventName !== ev.label ? '<div class="event-nom-script">' + stats.eventName + '</div>' : '';
+  var metaHtml = '';
+  if (stats.eventDate) metaHtml += '<span>📅 ' + stats.eventDate + '</span>';
+  if (stats.eventLieu) metaHtml += '<span>📍 ' + stats.eventLieu + '</span>';
+
+  var gpxHtml = '';
+  if (stats.lienGPX) {
+    gpxHtml = '<a href="' + stats.lienGPX + '" target="_blank" class="btn-gpx">📥 GPX</a>';
+  }
+
+  card.innerHTML =
+    '<div class="event-header">' +
+    '<span class="event-icon">' + ev.icon + '</span>' +
+    '<div style="flex:1"><div class="event-title">' + ev.label + '</div>' +
+    nomEvenement +
+    '<div class="event-meta">' + metaHtml + '</div>' +
+    '</div></div>' +
+    '<div class="event-body">' +
+    jaugeHtml +
+    '<div class="badges">' + badgesHtml + '</div>' +
+    '</div>' +
+    '<div class="event-actions">' +
+    '<a href="' + ev.page + '" class="btn-inscrire">✏️ S\'inscrire</a>' +
+    gpxHtml +
+    '</div>';
+}
+
+function carteErreur(ev) {
+  var card = document.getElementById('card-' + ev.id);
+  if (!card) return;
+  card.innerHTML =
+    '<div class="event-header">' +
+    '<span class="event-icon">' + ev.icon + '</span>' +
+    '<div><div class="event-title">' + ev.label + '</div>' +
+    '<div class="loading">Informations non disponibles</div></div>' +
+    '</div>' +
+    '<div class="event-actions">' +
+    '<a href="' + ev.page + '" class="btn-inscrire">✏️ S\'inscrire</a>' +
+    '</div>';
+}
+
+// Initialiser les cartes avec état de chargement
+var container = document.getElementById('events-container');
+evenements.forEach(function(ev) {
+  container.innerHTML += creerCarteChargement(ev);
+});
+
+// Charger les stats de chaque événement
+evenements.forEach(function(ev) {
+  fetch(ev.statsUrl)
+    .then(function(r) { return r.json(); })
+    .then(function(stats) { mettreAJourCarte(ev, stats); })
+    .catch(function() { carteErreur(ev); });
+});
+</script>
 </body>
 </html>
