@@ -53,7 +53,7 @@
 <main>
   <p class="section-title">Formulaire d'inscription</p>
   <div class="iframe-container">
-    <iframe src="https://script.google.com/macros/s/AKfycbzhRtKgILt45GbHNSwEvq44-2TqQd83PraY94wcaNIAVfmCr5-35hu8IUXlKmyWTDkP/exec" scrolling="auto" title="Formulaire d'inscription Grande Randonnée"></iframe>
+    <iframe src="https://script.google.com/macros/s/AKfycbwzwu4B1i_IehYv-fCyRBgw0rLNmLGJulIuEEfcqrPZxKrYlK8Y1WZAj5_ftvPXTNEk/exec" scrolling="auto" title="Formulaire d'inscription Grande Randonnée"></iframe>
   </div>
   <div class="info-box">
     <strong>ℹ️ Comment s'inscrire ?</strong>
@@ -65,7 +65,7 @@
 <footer>© RSC Courbevoie — Tous droits réservés</footer>
 <script>
   // Infos de l'événement + bouton GPX (lus depuis la Config via ?action=stats)
-  fetch('https://script.google.com/macros/s/AKfycbzhRtKgILt45GbHNSwEvq44-2TqQd83PraY94wcaNIAVfmCr5-35hu8IUXlKmyWTDkP/exec?action=stats')
+  fetch('https://script.google.com/macros/s/AKfycbwzwu4B1i_IehYv-fCyRBgw0rLNmLGJulIuEEfcqrPZxKrYlK8Y1WZAj5_ftvPXTNEk/exec?action=stats')
     .then(function(r) { return r.json(); })
     .then(function(s) {
       if (s.eventName && s.eventName !== 'Grande Randonnée') document.getElementById('ev-nom').textContent = s.eventName;

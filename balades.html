@@ -53,7 +53,7 @@
 <main>
   <p class="section-title">Formulaire d'inscription</p>
   <div class="iframe-container">
-    <iframe src="https://script.google.com/macros/s/AKfycby45Zjl5Bn87S9PJ1hudjR1NotUfK2Ofo0MVGiTp4DshKB10i8LQhYJguwCnNJYuCjhkA/exec" scrolling="auto" title="Formulaire d'inscription Balades"></iframe>
+    <iframe src="https://script.google.com/macros/s/AKfycbzRnk-CsxgRLjiglAAgV2268SP66ohZ8CxaKn2gQwyninuJBS1N7NAcBO0xeRyMpwva/exec" scrolling="auto" title="Formulaire d'inscription Balades"></iframe>
   </div>
   <div class="info-box">
     <strong>ℹ️ Comment s'inscrire ?</strong>
@@ -65,7 +65,7 @@
 <footer>© RSC Courbevoie — Tous droits réservés</footer>
 <script>
   // Infos de l'événement + bouton GPX (lus depuis la Config via ?action=stats)
-  fetch('https://script.google.com/macros/s/AKfycby45Zjl5Bn87S9PJ1hudjR1NotUfK2Ofo0MVGiTp4DshKB10i8LQhYJguwCnNJYuCjhkA/exec?action=stats')
+  fetch('https://script.google.com/macros/s/AKfycbzRnk-CsxgRLjiglAAgV2268SP66ohZ8CxaKn2gQwyninuJBS1N7NAcBO0xeRyMpwva/exec?action=stats')
     .then(function(r) { return r.json(); })
     .then(function(s) {
       if (s.eventName && s.eventName !== 'Balades') document.getElementById('ev-nom').textContent = s.eventName;
