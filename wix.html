@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RSC Courbevoie — Sorties à venir</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,sans-serif;background:#ffffff;color:#1a1a1a;padding:12px}
+  .events{display:flex;flex-direction:column;gap:14px;max-width:640px;margin:0 auto}
+  .event-card{background:white;border:1px solid #e3e3dc;border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);overflow:hidden}
+  .event-header{display:flex;align-items:center;gap:12px;padding:1rem 1.25rem 0.75rem}
+  .event-icon{font-size:26px;flex-shrink:0}
+  .event-title{font-size:16px;font-weight:600}
+  .event-nom{font-size:14px;color:#444;font-style:italic;margin-top:2px}
+  .event-meta{font-size:13px;color:#666;display:flex;gap:12px;flex-wrap:wrap;margin-top:2px}
+  .event-body{padding:0 1.25rem 0.75rem}
+  .jauge-wrap{margin:6px 0 8px}
+  .jauge-label{display:flex;justify-content:space-between;font-size:12px;color:#666;margin-bottom:4px}
+  .track{height:8px;background:#eee;border-radius:99px;overflow:hidden}
+  .fill{height:100%;background:#1D9E75;border-radius:99px}
+  .fill.plein{background:#E24B4A}
+  .badges{display:flex;gap:6px;flex-wrap:wrap}
+  .badge{font-size:11px;padding:3px 10px;border-radius:99px;font-weight:500}
+  .bg{background:#E1F5EE;color:#085041}
+  .ba{background:#FAEEDA;color:#633806}
+  .bi{background:#EEF2FF;color:#3730A3}
+  .event-actions{display:flex;gap:8px;padding:0.25rem 1.25rem 1rem;flex-wrap:wrap}
+  .btn-inscrire{flex:1;min-width:120px;padding:10px 16px;background:#1D9E75;color:white;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;text-align:center}
+  .btn-inscrire:hover{background:#0F6E56}
+  .btn-gpx{padding:10px 14px;background:#EEF2FF;color:#3730A3;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;text-align:center}
+  .btn-gpx:hover{background:#E0E7FF}
+  .message{text-align:center;color:#666;font-size:14px;padding:2rem 1rem;background:#f7f7f3;border-radius:14px;max-width:640px;margin:0 auto}
+  .aide{max-width:640px;margin:14px auto 0;font-size:12px;color:#777;text-align:center;line-height:1.5}
+  .aide a{color:#0F6E56}
+  @media(max-width:400px){.event-actions{flex-direction:column}.btn-inscrire{min-width:unset}}
+</style>
+</head>
+<body>
+
+<div id="message" class="message">Chargement des sorties…</div>
+<div class="events" id="events-container"></div>
+<p class="aide">Cliquez sur « S'inscrire » : le formulaire s'ouvre dans un nouvel onglet.<br>
+Vous n'êtes pas dans la liste ? Écrivez à <a href="mailto:rsc.secre@gmail.com">rsc.secre@gmail.com</a></p>
+
+<script>
+var BASE = 'https://rscourbevoie.github.io/inscriptions/';
+
+var evenements = [
+  { id: 'balades', label: 'Balades', icon: '🌿', page: 'balades.html',
+    statsUrl: 'https://script.google.com/macros/s/AKfycbzRnk-CsxgRLjiglAAgV2268SP66ohZ8CxaKn2gQwyninuJBS1N7NAcBO0xeRyMpwva/exec?action=stats' },
+  { id: 'petite-randonnee', label: 'Petite Randonnée', icon: '🌸', page: 'petite-randonnee.html',
+    statsUrl: 'https://script.google.com/macros/s/AKfycbzZF2T6Fg21f8jMGnVU9yoIOexMeRaBnultnHdCD4fmtXv2bLAaOdJ4owA0GXzNmJKg/exec?action=stats' },
+  { id: 'moyenne-randonnee', label: 'Moyenne Randonnée', icon: '🌲', page: 'moyenne-randonnee.html',
+    statsUrl: 'https://script.google.com/macros/s/AKfycbw53XcBvxgGbx5LkMXX3Ubhp6WAH_JXFeBgeg9MSSy2YAToqdVXmjdC35zrU1RG6dsI/exec?action=stats' },
+  { id: 'grande-randonnee', label: 'Grande Randonnée', icon: '🏔️', page: 'grande-randonnee.html',
+    statsUrl: 'https://script.google.com/macros/s/AKfycbwzwu4B1i_IehYv-fCyRBgw0rLNmLGJulIuEEfcqrPZxKrYlK8Y1WZAj5_ftvPXTNEk/exec?action=stats' }
+];
+
+// Lit la date de la Config : "jj/mm/aaaa" (ou date ISO). Renvoie null si illisible.
+function lireDate(valeur) {
+  if (!valeur) return null;
+  var s = String(valeur).trim();
+  var m = s.match(/^(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{2,4})/);
+  if (m) {
+    var an = parseInt(m[3], 10); if (an < 100) an += 2000;
+    return new Date(an, parseInt(m[2], 10) - 1, parseInt(m[1], 10));
+  }
+  var t = Date.parse(s);
+  if (!isNaN(t)) { var d = new Date(t); return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+  return null;
+}
+
+function texteDate(valeur, d) {
+  if (/^\d{1,2}[\/.\-]\d{1,2}[\/.\-]\d{2,4}/.test(String(valeur))) return String(valeur);
+  if (!d) return String(valeur);
+  return ('0' + d.getDate()).slice(-2) + '/' + ('0' + (d.getMonth() + 1)).slice(-2) + '/' + d.getFullYear();
+}
+
+// Règle d'affichage : date vide → masquée ; date passée → masquée ;
+// date illisible → affichée par sécurité ; aujourd'hui ou plus tard → affichée.
+function estProgramme(stats) {
+  if (!stats.eventDate || !String(stats.eventDate).trim()) return false;
+  var d = lireDate(stats.eventDate);
+  if (!d) return true;
+  var auj = new Date(); auj = new Date(auj.getFullYear(), auj.getMonth(), auj.getDate());
+  return d >= auj;
+}
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"]/g, function(c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+  });
+}
+
+function carteHtml(ev, stats) {
+  var s = stats.inscrits > 1 ? 's' : '';
+  var jauge = '', badges = '';
+  if (stats.sansJauge) {
+    badges = '<span class="badge bi">∞ Sans limite</span><span class="badge bg">✓ ' + stats.inscrits + ' inscrit' + s + '</span>';
+  } else {
+    var pct = stats.max ? Math.min(100, Math.round(stats.inscrits / stats.max * 100)) : 0;
+    var plein = stats.inscrits >= stats.max;
+    jauge = '<div class="jauge-wrap"><div class="jauge-label"><span>' + (plein ? 'Complet — liste d\'attente' : 'Places') +
+      '</span><span>' + stats.inscrits + ' / ' + stats.max + '</span></div>' +
+      '<div class="track"><div class="fill' + (plein ? ' plein' : '') + '" style="width:' + pct + '%"></div></div></div>';
+    badges = '<span class="badge bg">✓ ' + stats.inscrits + ' inscrit' + s + '</span>';
+    if (stats.attente > 0) badges += '<span class="badge ba">⏳ ' + stats.attente + ' en attente</span>';
+  }
+  var d = lireDate(stats.eventDate);
+  var meta = '<span>📅 ' + esc(texteDate(stats.eventDate, d)) + '</span>';
+  if (stats.eventLieu) meta += '<span>📍 ' + esc(stats.eventLieu) + '</span>';
+  var nom = stats.eventName && stats.eventName !== ev.label ? '<div class="event-nom">' + esc(stats.eventName) + '</div>' : '';
+  var gpx = stats.lienGPX ? '<a class="btn-gpx" href="' + esc(stats.lienGPX) + '" target="_blank" rel="noopener">📥 GPX</a>' : '';
+
+  return '<div class="event-card">' +
+    '<div class="event-header"><span class="event-icon">' + ev.icon + '</span>' +
+    '<div><div class="event-title">' + ev.label + '</div>' + nom +
+    '<div class="event-meta">' + meta + '</div></div></div>' +
+    '<div class="event-body">' + jauge + '<div class="badges">' + badges + '</div></div>' +
+    '<div class="event-actions"><a class="btn-inscrire" href="' + BASE + ev.page + '" target="_blank" rel="noopener">✏️ S\'inscrire</a>' + gpx + '</div>' +
+    '</div>';
+}
+
+function carteErreur(ev) {
+  return '<div class="event-card">' +
+    '<div class="event-header"><span class="event-icon">' + ev.icon + '</span>' +
+    '<div><div class="event-title">' + ev.label + '</div>' +
+    '<div class="event-meta"><span>Informations momentanément indisponibles</span></div></div></div>' +
+    '<div class="event-actions"><a class="btn-inscrire" href="' + BASE + ev.page + '" target="_blank" rel="noopener">✏️ S\'inscrire</a></div>' +
+    '</div>';
+}
+
+Promise.all(evenements.map(function(ev) {
+  return fetch(ev.statsUrl)
+    .then(function(r) { return r.json(); })
+    .then(function(stats) { return { ev: ev, stats: stats }; })
+    .catch(function() { return { ev: ev, erreur: true }; });
+})).then(function(resultats) {
+  var html = '';
+  resultats.forEach(function(r) {
+    if (r.erreur) html += carteErreur(r.ev);
+    else if (estProgramme(r.stats)) html += carteHtml(r.ev, r.stats);
+  });
+  var msg = document.getElementById('message');
+  if (html) {
+    msg.style.display = 'none';
+    document.getElementById('events-container').innerHTML = html;
+  } else {
+    msg.textContent = 'Pas de sortie programmée pour le moment. Revenez bientôt !';
+  }
+});
+</script>
+</body>
+</html>
