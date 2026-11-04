@@ -25,7 +25,7 @@
   main{max-width:600px;margin:2rem auto;padding:0 1rem}
   .section-title{font-size:13px;font-weight:600;color:#666;text-transform:uppercase;letter-spacing:.05em;margin-bottom:1rem}
   .iframe-container{background:white;border-radius:16px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.08)}
-  .iframe-container iframe{width:100%;height:750px;border:none;display:block}
+  .iframe-container iframe{width:100%;height:900px;border:none;display:block}
   .info-box{background:#E1F5EE;border:1px solid #5DCAA5;border-radius:12px;padding:1rem 1.25rem;margin-top:1.5rem;font-size:13px;color:#085041;line-height:1.6}
   .info-box strong{display:block;font-size:14px;margin-bottom:6px}
   footer{text-align:center;padding:2rem;font-size:12px;color:#999;margin-top:1rem}
@@ -53,7 +53,7 @@
 <main>
   <p class="section-title">Formulaire d'inscription</p>
   <div class="iframe-container">
-    <iframe src="https://script.google.com/macros/s/AKfycbw53XcBvxgGbx5LkMXX3Ubhp6WAH_JXFeBgeg9MSSy2YAToqdVXmjdC35zrU1RG6dsI/exec" scrolling="auto" title="Formulaire d'inscription Moyenne Randonnée"></iframe>
+    <iframe src="https://script.google.com/macros/s/AKfycbw53XcBvxgGbx5LkMXX3Ubhp6WAH_JXFeBgeg9MSSy2YAToqdVXmjdC35zrU1RG6dsI/exec" scrolling="no" title="Formulaire d'inscription Moyenne Randonnée"></iframe>
   </div>
   <div class="info-box">
     <strong>ℹ️ Comment s'inscrire ?</strong>
@@ -83,6 +83,12 @@
   // Fermeture de l'onglet quand on clique sur « Fin » dans le formulaire
   window.addEventListener('message', function(e) {
     if (e.data === 'rsc-fermer') window.close();
+    // Le formulaire donne sa hauteur : le cadre s'adapte, seule la page défile
+    if (e.data && typeof e.data.rscHauteur === 'number') {
+      var h = Math.max(400, Math.min(12000, Math.round(e.data.rscHauteur)));
+      document.querySelector('.iframe-container iframe').style.height = (h + 30) + 'px';
+      try { e.source.postMessage('rsc-hauteur-ok', '*'); } catch(err) {}
+    }
   });
 </script>
 </body>
