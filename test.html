@@ -54,7 +54,7 @@
 <main>
   <p class="section-title">Formulaire d'inscription</p>
   <div class="iframe-container">
-    <iframe src="https://script.google.com/macros/s/AKfycbxE4sd39gcZwMUHcTE6gfmsk7_t1yIEKkpVr5m9gmhnw3-1RpwNm9Gz44cZwO7NJlMC5Q/exec" scrolling="auto" title="Formulaire d'inscription Test"></iframe>
+    <iframe src="https://script.google.com/macros/s/AKfycbxE4sd39gcZwMUHcTE6gfmsk7_t1yIEKkpVr5m9gmhnw3-1RpwNm9Gz44cZwO7NJlMC5Q/exec" scrolling="no" title="Formulaire d'inscription Test"></iframe>
   </div>
   <div class="info-box">
     <strong>ℹ️ Comment s'inscrire ?</strong>
@@ -86,8 +86,9 @@
     if (e.data === 'rsc-fermer') window.close();
     // Le formulaire donne sa hauteur : le cadre s'adapte, plus besoin de défiler dedans
     if (e.data && typeof e.data.rscHauteur === 'number') {
-      var h = Math.max(400, Math.min(6000, Math.round(e.data.rscHauteur)));
-      document.querySelector('.iframe-container iframe').style.height = (h + 10) + 'px';
+      var h = Math.max(400, Math.min(12000, Math.round(e.data.rscHauteur)));
+      document.querySelector('.iframe-container iframe').style.height = (h + 30) + 'px';
+      try { e.source.postMessage('rsc-hauteur-ok', '*'); } catch(err) {}
     }
   });
 </script>
