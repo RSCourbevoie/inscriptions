@@ -11,12 +11,12 @@
   .logo{width:48px;height:48px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
   header h1{font-size:20px;font-weight:600}
   header p{font-size:13px;opacity:0.85;margin-top:2px}
-  .hero{background:linear-gradient(135deg,#0F6E56 0%,#1D9E75 100%);color:white;padding:2.5rem 2rem;text-align:center}
-  .hero h2{font-size:24px;font-weight:600;margin-bottom:8px}
-  .hero p{font-size:15px;opacity:0.9}
-  main{max-width:600px;margin:2rem auto;padding:0 1rem}
-  .section-title{font-size:13px;font-weight:600;color:#666;text-transform:uppercase;letter-spacing:.05em;margin-bottom:1rem}
-  .events{display:flex;flex-direction:column;gap:14px;margin-bottom:2rem}
+  .hero{background:linear-gradient(135deg,#0F6E56 0%,#1D9E75 100%);color:white;padding:2rem;text-align:center}
+  .hero h2{font-size:22px;font-weight:600;margin-bottom:6px}
+  .hero p{font-size:14px;opacity:0.9}
+  main{max-width:640px;margin:1.5rem auto;padding:0 1rem}
+  .section-title{font-size:12px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:1rem}
+  .events{display:flex;flex-direction:column;gap:14px;margin-bottom:1.5rem}
   .event-card{background:white;border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.08);overflow:hidden;transition:box-shadow .2s}
   .event-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.12)}
   .event-header{display:flex;align-items:center;gap:12px;padding:1rem 1.25rem 0.75rem}
@@ -40,9 +40,11 @@
   .btn-gpx{padding:10px 14px;background:#EEF2FF;color:#3730A3;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;text-align:center;display:inline-block}
   .btn-gpx:hover{background:#E0E7FF}
   .loading{color:#aaa;font-size:13px;font-style:italic;padding:8px 0}
+  .event-nom-script{font-size:14px;color:#444;font-style:italic;margin-top:2px}
   .info-box{background:#E1F5EE;border:1px solid #5DCAA5;border-radius:12px;padding:1rem 1.25rem;font-size:13px;color:#085041;line-height:1.6}
   .info-box strong{display:block;font-size:14px;margin-bottom:4px}
   footer{text-align:center;padding:2rem;font-size:12px;color:#999;margin-top:1rem}
+  @media(max-width:400px){.event-actions{flex-direction:column}.btn-inscrire{min-width:unset}}
 </style>
 </head>
 <body>
@@ -51,7 +53,7 @@
   <div class="logo">🚶</div>
   <div>
     <h1>RSC Courbevoie</h1>
-    <p>Randonnées & Balades</p>
+    <p>Randonnées &amp; Balades</p>
   </div>
 </header>
 
@@ -76,109 +78,115 @@
 
 <script>
 var evenements = [
-  {
-    id: 'balades',
-    label: 'Balades',
-    icon: '🌿',
-    page: 'balades.html',
-    statsUrl: 'https://script.google.com/macros/s/AKfycbzRnk-CsxgRLjiglAAgV2268SP66ohZ8CxaKn2gQwyninuJBS1N7NAcBO0xeRyMpwva/exec?action=stats'
-  },
-  {
-    id: 'petite-randonnee',
-    label: 'Petite Randonnée',
-    icon: '🌸',
-    page: 'petite-randonnee.html',
-    statsUrl: 'https://script.google.com/macros/s/AKfycbzZF2T6Fg21f8jMGnVU9yoIOexMeRaBnultnHdCD4fmtXv2bLAaOdJ4owA0GXzNmJKg/exec?action=stats'
-  },
-  {
-    id: 'moyenne-randonnee',
-    label: 'Moyenne Randonnée',
-    icon: '🌲',
-    page: 'moyenne-randonnee.html',
-    statsUrl: 'https://script.google.com/macros/s/AKfycbw53XcBvxgGbx5LkMXX3Ubhp6WAH_JXFeBgeg9MSSy2YAToqdVXmjdC35zrU1RG6dsI/exec?action=stats'
-  },
-  {
-    id: 'grande-randonnee',
-    label: 'Grande Randonnée',
-    icon: '🏔️',
-    page: 'grande-randonnee.html',
-    statsUrl: 'https://script.google.com/macros/s/AKfycbwzwu4B1i_IehYv-fCyRBgw0rLNmLGJulIuEEfcqrPZxKrYlK8Y1WZAj5_ftvPXTNEk/exec?action=stats'
-  }
+  { id: 'balades', label: 'Balades', icon: '🌿', page: 'balades.html',
+    statsUrl: 'https://script.google.com/macros/s/AKfycbzRnk-CsxgRLjiglAAgV2268SP66ohZ8CxaKn2gQwyninuJBS1N7NAcBO0xeRyMpwva/exec?action=stats' },
+  { id: 'petite-randonnee', label: 'Petite Randonnée', icon: '🌸', page: 'petite-randonnee.html',
+    statsUrl: 'https://script.google.com/macros/s/AKfycbzZF2T6Fg21f8jMGnVU9yoIOexMeRaBnultnHdCD4fmtXv2bLAaOdJ4owA0GXzNmJKg/exec?action=stats' },
+  { id: 'moyenne-randonnee', label: 'Moyenne Randonnée', icon: '🌲', page: 'moyenne-randonnee.html',
+    statsUrl: 'https://script.google.com/macros/s/AKfycbw53XcBvxgGbx5LkMXX3Ubhp6WAH_JXFeBgeg9MSSy2YAToqdVXmjdC35zrU1RG6dsI/exec?action=stats' },
+  { id: 'grande-randonnee', label: 'Grande Randonnée', icon: '🏔️', page: 'grande-randonnee.html',
+    statsUrl: 'https://script.google.com/macros/s/AKfycbwzwu4B1i_IehYv-fCyRBgw0rLNmLGJulIuEEfcqrPZxKrYlK8Y1WZAj5_ftvPXTNEk/exec?action=stats' },
+  { id: 'randonnee-resto', label: 'Randonnée + Resto', icon: '🍽️', page: 'randonnee-resto.html',
+    statsUrl: 'https://script.google.com/macros/s/AKfycbyZALo12jcEKE8wyoC9bYLH_DXqGfQZ8Qf0kK7NaKGIWib_QbpmYXx_L9yVHa6EC7LXCQ/exec?action=stats' }
 ];
+
+// Lit la date de la Config : "jj/mm/aaaa" (ou date ISO). Renvoie null si illisible.
+function lireDate(valeur) {
+  if (!valeur) return null;
+  var s = String(valeur).trim();
+  var m = s.match(/^(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{2,4})/);
+  if (m) {
+    var an = parseInt(m[3], 10); if (an < 100) an += 2000;
+    return new Date(an, parseInt(m[2], 10) - 1, parseInt(m[1], 10));
+  }
+  var t = Date.parse(s);
+  if (!isNaN(t)) { var d = new Date(t); return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+  return null;
+}
+
+function texteDate(valeur, d) {
+  if (/^\d{1,2}[\/.\-]\d{1,2}[\/.\-]\d{2,4}/.test(String(valeur))) return String(valeur);
+  if (!d) return String(valeur);
+  return ('0' + d.getDate()).slice(-2) + '/' + ('0' + (d.getMonth() + 1)).slice(-2) + '/' + d.getFullYear();
+}
+
+// Règle d'affichage : date vide → masquée ; date passée → masquée ;
+// date illisible → affichée par sécurité ; aujourd'hui ou plus tard → affichée.
+function estProgramme(stats) {
+  if (!stats.eventDate || !String(stats.eventDate).trim()) return false;
+  var d = lireDate(stats.eventDate);
+  if (!d) return true;
+  var auj = new Date(); auj = new Date(auj.getFullYear(), auj.getMonth(), auj.getDate());
+  return d >= auj;
+}
 
 function creerCarteChargement(ev) {
   return '<div class="event-card" id="card-' + ev.id + '">' +
-    '<div class="event-header">' +
-    '<span class="event-icon">' + ev.icon + '</span>' +
+    '<div class="event-header"><span class="event-icon">' + ev.icon + '</span>' +
     '<div><div class="event-title">' + ev.label + '</div>' +
-    '<div class="loading">Chargement…</div></div>' +
-    '</div></div>';
+    '<div class="loading">Chargement…</div></div></div></div>';
 }
 
 function mettreAJourCarte(ev, stats) {
   var card = document.getElementById('card-' + ev.id);
   if (!card) return;
-  var jaugeHtml = '';
-  var badgesHtml = '';
+  // Événement passé ou sans date : la carte disparaît
+  if (!estProgramme(stats)) { card.remove(); return; }
+  var jaugeHtml = '', badgesHtml = '';
+  var s = stats.inscrits > 1 ? 's' : '';
   if (stats.sansJauge) {
     badgesHtml = '<span class="badge badge-illimite">∞ Sans limite</span>' +
-      '<span class="badge bg">✓ ' + stats.inscrits + ' confirmé' + (stats.inscrits > 1 ? 's' : '') + '</span>';
+      '<span class="badge bg">✓ ' + stats.inscrits + ' confirmé' + s + '</span>';
   } else {
     var pct = Math.round((stats.inscrits / stats.max) * 100);
     var plein = stats.inscrits >= stats.max;
-    jaugeHtml = '<div class="jauge-wrap">' +
-      '<div class="jauge-label"><span>Places</span><span>' + stats.inscrits + ' / ' + stats.max + '</span></div>' +
-      '<div class="track"><div class="fill' + (plein ? ' plein' : '') + '" style="width:' + pct + '%"></div></div>' +
-      '</div>';
-    badgesHtml = '<span class="badge bg">✓ ' + stats.inscrits + ' confirmé' + (stats.inscrits > 1 ? 's' : '') + '</span>';
+    jaugeHtml = '<div class="jauge-wrap"><div class="jauge-label"><span>Places</span><span>' +
+      stats.inscrits + ' / ' + stats.max + '</span></div>' +
+      '<div class="track"><div class="fill' + (plein ? ' plein' : '') + '" style="width:' + pct + '%"></div></div></div>';
+    badgesHtml = '<span class="badge bg">✓ ' + stats.inscrits + ' confirmé' + s + '</span>';
     if (stats.attente > 0) badgesHtml += '<span class="badge ba">⏳ ' + stats.attente + ' en attente</span>';
   }
-  var nomEvenement = stats.eventName !== ev.label ? '<div style="font-size:13px;color:#444;font-style:italic">' + stats.eventName + '</div>' : '';
+  var nomEvenement = stats.eventName && stats.eventName !== ev.label
+    ? '<div class="event-nom-script">' + stats.eventName + '</div>' : '';
   var metaHtml = '';
   if (stats.eventDate) metaHtml += '<span>📅 ' + stats.eventDate + '</span>';
   if (stats.eventLieu) metaHtml += '<span>📍 ' + stats.eventLieu + '</span>';
-  var gpxHtml = stats.lienGPX ? '<a href="' + stats.lienGPX + '" target="_blank" class="btn-gpx">📥 GPX</a>' : '';
+  var gpxHtml = stats.lienGPX
+    ? '<a href="' + stats.lienGPX + '" target="_blank" rel="noopener" class="btn-gpx">📥 GPX</a>' : '';
 
   card.innerHTML =
-    '<div class="event-header">' +
-    '<span class="event-icon">' + ev.icon + '</span>' +
-    '<div style="flex:1"><div class="event-title">' + ev.label + '</div>' +
-    nomEvenement +
-    '<div class="event-meta">' + metaHtml + '</div>' +
-    '</div></div>' +
-    '<div class="event-body">' + jaugeHtml +
-    '<div class="badges">' + badgesHtml + '</div>' +
-    '</div>' +
-    '<div class="event-actions">' +
-    '<a href="' + ev.page + '" class="btn-inscrire">✏️ S\'inscrire</a>' +
-    gpxHtml +
-    '</div>';
+    '<div class="event-header"><span class="event-icon">' + ev.icon + '</span>' +
+    '<div style="flex:1"><div class="event-title">' + ev.label + '</div>' + nomEvenement +
+    '<div class="event-meta">' + metaHtml + '</div></div></div>' +
+    '<div class="event-body">' + jaugeHtml + '<div class="badges">' + badgesHtml + '</div></div>' +
+    '<div class="event-actions"><a href="' + ev.page + '" class="btn-inscrire">✏️ S\'inscrire</a>' + gpxHtml + '</div>';
 }
 
 function carteErreur(ev) {
   var card = document.getElementById('card-' + ev.id);
   if (!card) return;
   card.innerHTML =
-    '<div class="event-header">' +
-    '<span class="event-icon">' + ev.icon + '</span>' +
+    '<div class="event-header"><span class="event-icon">' + ev.icon + '</span>' +
     '<div><div class="event-title">' + ev.label + '</div>' +
-    '<div class="loading">Informations non disponibles</div></div>' +
-    '</div>' +
-    '<div class="event-actions">' +
-    '<a href="' + ev.page + '" class="btn-inscrire">✏️ S\'inscrire</a>' +
-    '</div>';
+    '<div class="loading">Informations non disponibles</div></div></div>' +
+    '<div class="event-actions"><a href="' + ev.page + '" class="btn-inscrire">✏️ S\'inscrire</a></div>';
 }
 
 var container = document.getElementById('events-container');
-evenements.forEach(function(ev) {
-  container.innerHTML += creerCarteChargement(ev);
-});
-
+evenements.forEach(function(ev) { container.innerHTML += creerCarteChargement(ev); });
+var restants = evenements.length;
+function verifierVide() {
+  restants--;
+  if (restants === 0 && !container.querySelector('.event-card')) {
+    container.innerHTML = '<div class="info-box" style="text-align:center">Pas de sortie programmée pour le moment. Revenez bientôt !</div>';
+  }
+}
 evenements.forEach(function(ev) {
   fetch(ev.statsUrl)
     .then(function(r) { return r.json(); })
     .then(function(stats) { mettreAJourCarte(ev, stats); })
-    .catch(function() { carteErreur(ev); });
+    .catch(function() { carteErreur(ev); })
+    .then(verifierVide);
 });
 </script>
 </body>
